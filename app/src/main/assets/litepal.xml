@@ -5,6 +5,6 @@
     <list>
         <mapping class="com.qingyaweather.android.db.Province"/>
         <mapping class="com.qingyaweather.android.db.City"/>
-        <mappong class="com.qingyaweather.android.db.County"/>
+        <mapping class="com.qingyaweather.android.db.County"/>
     </list>
 </litepal>
