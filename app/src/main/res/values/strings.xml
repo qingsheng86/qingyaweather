@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">QingyaWeather</string>
+    <string name="pm2_5">PM2.5 指数</string>
 </resources>

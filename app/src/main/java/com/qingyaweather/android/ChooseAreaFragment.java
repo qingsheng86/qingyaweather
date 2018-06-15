@@ -1,6 +1,7 @@
 package com.qingyaweather.android;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -43,6 +44,7 @@ public class ChooseAreaFragment extends Fragment {
     private List<Province>provinceList;
     private List<City>cityList;
     private Province selectedProvince;
+    private List<County> countyList;
     //选中的省份
     private City selectedCity;
     //选中的城市
@@ -74,6 +76,12 @@ public class ChooseAreaFragment extends Fragment {
                 }else if(currentLevel==LEVEL_CITY){
                     selectedCity=cityList.get(position);
                     queryCounties();
+                }else if (currentLevel==LEVEL_COUNTY){
+                    String weatherId=countyList.get(position).getWeatherId();
+                    Intent intent=new Intent(getActivity(),WeatherActivity.class);//getActivity()
+                    intent.putExtra("weather_id",weatherId);
+                    startActivity(intent);
+                    getActivity().finish();//guan bi huodong
                 }
             }
         });
@@ -132,7 +140,7 @@ public class ChooseAreaFragment extends Fragment {
     private void queryCounties(){
         textView.setText(selectedCity.getCityName());
         button.setVisibility(View.VISIBLE);
-        List<County> countyList = DataSupport.where("cityId=?", String.valueOf(selectedCity.getId())).find(County.class);
+        countyList = DataSupport.where("cityId=?", String.valueOf(selectedCity.getId())).find(County.class);
         if(countyList.size()>0){
             datalist.clear();
             for (County county:countyList){
@@ -167,6 +175,7 @@ public class ChooseAreaFragment extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                           //显示数据在界面上，UI操作需要切换回主线程
                             closeProgressDialog();
                             if("province".equals(type)){
                                 queryProvinces();
